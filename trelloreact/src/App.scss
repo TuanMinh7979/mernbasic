@@ -1,5 +1,4 @@
-$board-bg-color: #0079bf;
-$gap: 10px;
+@import "./components/settings.scss";
 * {
   box-sizing: border-box;
   padding: 0;
@@ -20,83 +19,7 @@ body {
     border-color: green;
   }
 
-  .navbar {
-    padding-left: 10px;
-    display: flex;
-    align-items: center;
-    &.app {
-      background-color: #0067a3;
-      font-size: 1.5rem;
-    }
-    &.board {
-      background-color: #0079bf;
-      font-size: 1.1rem;
-    }
-  }
 
-  .board-columns {
-    display: flex;
-    overflow-x: auto;
 
-    .column {
-      border: 1px solid red !important;
-      flex: 0 0 auto;
-      width: 300px;
-      height: calc(100% - #{$gap});
-      margin-left: 10px;
 
-      > * {
-        background-color: #ebecf0;
-        color: #333;
-        padding-left: 0 8px;
-      }
-      header {
-        padding-left: 15px;
-        height: 35px;
-        line-height: 36px;
-        font-size: 16px;
-        font-weight: bold;
-        border-top-left-radius: 5px;
-      }
-      footer {
-        padding-left: 10px;
-        height: 35px;
-        line-height: 36px;
-        font-size: 16px;
-        font-weight: bold;
-        border-top-right-radius: 5px;
-      }
-      ul {
-        list-style-type: none;
-        margin: 0;
-        overflow-y: auto;
-        max-height: calc(100% - 10px);
-
-        &::-webkit-scrollbar{
-          -webkit-appearance: none;
-        }
-        &::-webkit-scrollbar:vertical{
-          width: 11px;
-        }
-
-        &::-webkit-scrollbar-thumb{
-          background-color: darken(black, 15);
-        }
-        li {
-          background-color: white;
-          padding: 10px;
-          &:not(:last-child) {
-            margin-bottom: 10px;
-          }
-
-          img {
-            display: block;
-            width: calc(100% + 2 * 10px);
-            margin: -10px 0 10px -10px;
-            border-top-right-radius: 4px;
-          }
-        }
-      }
-    }
-  }
 }
