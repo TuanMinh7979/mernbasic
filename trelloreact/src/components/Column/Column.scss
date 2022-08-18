@@ -1,10 +1,12 @@
-@import "../../components/settings";
+@import '../../components/settings';
 .column {
   border: 1px solid red !important;
   flex: 0 0 auto;
   width: 300px;
-  height: calc(100% - #{$gap});
   margin-left: 10px;
+  height: 300px;
+  //overlow y thi column phai co height
+
 
   > * {
     background-color: #ebecf0;
@@ -27,8 +29,7 @@
     font-weight: bold;
     border-top-right-radius: 5px;
   }
-  ul.card-list{
-    list-style-type: none;
+  .card-list {
     margin: 0;
     overflow-y: auto;
     max-height: calc(100% - 10px);
@@ -44,6 +45,19 @@
       background-color: darken(black, 15);
     }
 
+    .card-ghost {
+      transition: transform 0.18s ease;
+      transform: rotateZ(5deg);
+    }
 
+    .card-ghost-drop {
+      transition: transform 0.18s ease-in-out;
+      transform: rotateZ(0deg);
+    }
+    .card-drop-preview {
+      background-color: rgba(150, 150, 200, 0.1);
+      border: 1px dashed #abc;
+      margin: 5px;
+    }
   }
 }

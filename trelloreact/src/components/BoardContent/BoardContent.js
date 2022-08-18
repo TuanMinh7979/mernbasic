@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
-import "./BoardContent.scss";
-import Column from "../Column/Column";
-import { initData } from "../../actions/initData";
-// const isEmpty = require("lodash.isempty");
-import { isEmpty } from "lodash";
+import React, { useState, useEffect } from 'react';
+import { Container, Draggable } from 'react-smooth-dnd';
+import './BoardContent.scss';
+
+import Column from '../Column/Column';
+import { initData } from '../../actions/initData';
+// const isEmpty = require('lodash.isempty');
+import { isEmpty } from 'lodash';
 
 function BoardContent() {
   const [board, setBoard] = useState({});
@@ -11,8 +13,8 @@ function BoardContent() {
 
   //run first time
   useEffect(() => {
-    const boardFromDb = initData.boards.find((board) => board.id === "board-1");
-    console.log("___________________+_+_", boardFromDb);
+    const boardFromDb = initData.boards.find((board) => board.id === 'board-1');
+
     if (boardFromDb) {
       setBoard(boardFromDb);
 
@@ -27,21 +29,41 @@ function BoardContent() {
   }, []);
 
   if (isEmpty(board)) {
-    console.log("______________", board);
+    console.log('______________', board);
     return <div className="not-found">Board not found</div>;
   }
 
+  const onColumnDrop = (dropResult) => {
+    console.log('*************', dropResult);
+  };
+
   return (
     <div className="board-content">
-      {column.map((columni, index) => (
-        <Column key={index} column={columni}></Column>
-      ))}
+      <Container
+        orientation="horizontal"
+        onDrop={onColumnDrop}
+        getChildPayload={
+          index => column[index]
+        }
+        dragHandleSelector=".column-drag-handle"
+        dropPlaceholder={{
+          animationDuration: 150,
+          showOnTop: true,
+          className: 'cards-drop-preview',
+        }}
+      >
+        {column.map((columni, index) => (
+          <Draggable key={index}>
+            <Column column={columni}></Column>
+          </Draggable>
+        ))}
+      </Container>
     </div>
   );
 
   //   if()
   //   return (
-  //     <div className="board-content">
+  //     <div className='board-content'>
   //       <Column></Column>
   //     </div>
   //   );
