@@ -7,7 +7,6 @@
   height: 300px;
   //overlow y thi column phai co height
 
-
   > * {
     background-color: #ebecf0;
     color: #333;
@@ -28,6 +27,13 @@
     font-size: 16px;
     font-weight: bold;
     border-top-right-radius: 5px;
+    .footer-actions {
+      margin-left: 10px;
+      cursor: pointer;
+      &:hover {
+        color: darkblue;
+      }
+    }
   }
   .card-list {
     margin: 0;

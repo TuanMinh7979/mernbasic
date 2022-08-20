@@ -3,15 +3,18 @@ import './Column.scss';
 import Card from '../Card/Card';
 import { Container, Draggable } from 'react-smooth-dnd';
 function Column(props) {
-  const { column } = props;
+  const { column, onCardDrop } = props;
   const cards = column.cards;
   cards.sort((a, b) => {
     return column.cardOrder.indexOf(a.id) - column.cardOrder.indexOf(b.id);
   });
 
-  const onCardDrop = () => {
-    console.log('----');
-  };
+  // const onCardDrop = (id, dropResult) => {
+  //   if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
+  //     console.log(id);
+  //     console.log(dropResult);
+  //   }
+  // };
   return (
     <div className="column">
       <header className="column-drag-handle"> Brainstorm</header>
@@ -29,7 +32,7 @@ function Column(props) {
           //   console.log('drag leave:', column.id);
           // }}
           // onDropReady={(p) => console.log('Drop ready: ', p)}
-          onDrop={() => onCardDrop()}
+          onDrop={(dropResult) => onCardDrop(column.id, dropResult)}
           getChildPayload={(index) => cards[index]}
           dragClass="card-ghost"
           dropClass="card-ghost-drop"
@@ -48,7 +51,11 @@ function Column(props) {
         </Container>
       </div>
 
-      <footer>Footer</footer>
+      <footer>
+        <div className="footer-actions">
+          <i className="fa fa-plus icon" /> Add another card
+        </div>
+      </footer>
     </div>
   );
 }
