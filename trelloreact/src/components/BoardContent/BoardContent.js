@@ -19,7 +19,9 @@ import {
 function BoardContent() {
   const [board, setBoard] = useState({});
   const [column, setColumn] = useState([]);
+  const [openNewColumnForm, setOpenNewColumnForm] = useState(false);
 
+  const [newColumnTitle, setNewColumnTitle] = useState('');
   //run first time
   useEffect(() => {
     const boardFromDb = initData.boards.find((board) => board.id === 'board-1');
@@ -67,6 +69,40 @@ function BoardContent() {
     }
   };
 
+  let toggleOpenNewColumnForm = () => {
+    if (openNewColumnForm) {
+      setNewColumnTitle('');
+    }
+    setOpenNewColumnForm(!openNewColumnForm);
+    console.log(openNewColumnForm);
+  };
+
+  let onNewColumnTitleChange = (event) => {
+    setNewColumnTitle(event.target.value);
+  };
+
+  const addNewColumn = () => {
+    if (!newColumnTitle) {
+      return;
+    }
+
+    const newColToAdd = {
+      id: Math.random().toString(36).substring(2, 5),
+      boardId: board.id,
+      title: newColumnTitle,
+      cardOrder: [],
+      cards: [],
+    };
+    let updateColumns = [...column];
+    updateColumns.push(newColToAdd);
+
+    let updateBoard = { ...board };
+    updateBoard.columnOrder = updateColumns.map((c) => c.id);
+    updateBoard.column = updateColumns;
+    setOpenNewColumnForm(false);
+    setColumn(updateColumns);
+    setBoard(updateBoard);
+  };
   return (
     <div className="board-content">
       <Container
@@ -88,26 +124,32 @@ function BoardContent() {
       </Container>
 
       <BtContainer className="btcontainer">
-        <Row>
-          <Col className="add-new-column">
-            <i className="fa fa-plus icon" /> Add new column
-          </Col>
-        </Row>
-        <Row>
-          <Col className="enter-add-column">
-            <Form.Control
-              size="sm"
-              type="text"
-              class="inp-enter-new-column"
-            ></Form.Control>{' '}
-            <Button variant="success" size="sm">
-              Add Column
-            </Button>
-            <span className="add-cancle">
-              <i className="fa fa-trash" />
-            </span>
-          </Col>
-        </Row>
+        {!openNewColumnForm && (
+          <Row>
+            <Col className="add-new-column" onClick={toggleOpenNewColumnForm}>
+              <i className="fa fa-plus icon" /> Add new column
+            </Col>
+          </Row>
+        )}
+        {openNewColumnForm && (
+          <Row>
+            <Col className="enter-add-column">
+              <Form.Control
+                size="sm"
+                type="text"
+                className="inp-enter-new-column"
+                value={newColumnTitle}
+                onChange={(event) => onNewColumnTitleChange(event)}
+              ></Form.Control>
+              <Button variant="success" size="sm" onClick={addNewColumn}>
+                Add Column
+              </Button>
+              <span className="add-cancle" onClick={toggleOpenNewColumnForm}>
+                <i className="fa fa-trash" />
+              </span>
+            </Col>
+          </Row>
+        )}
       </BtContainer>
     </div>
   );

@@ -17,7 +17,7 @@ function Column(props) {
   // };
   return (
     <div className="column">
-      <header className="column-drag-handle"> Brainstorm</header>
+      <header className="column-drag-handle"> {column.title}</header>
       <div className="card-list">
         <Container
           // {...column.props}
