@@ -8,6 +8,14 @@ import { initData } from '../../actions/initData';
 import { isEmpty } from 'lodash';
 import { applyDrag } from '../../utils/dragDrop';
 
+import {
+  Container as BtContainer,
+  Row,
+  Col,
+  Form,
+  Button,
+} from 'react-bootstrap';
+
 function BoardContent() {
   const [board, setBoard] = useState({});
   const [column, setColumn] = useState([]);
@@ -55,9 +63,7 @@ function BoardContent() {
       currentColumn.cardOrder = currentColumn.cards.map((i) => i.id);
       console.log(currentColumn);
 
-
-      setColumn(newCols)
-     
+      setColumn(newCols);
     }
   };
 
@@ -79,19 +85,31 @@ function BoardContent() {
             <Column onCardDrop={onCardDrop} column={columni}></Column>
           </Draggable>
         ))}
-
-        <div className='add-new-column'>
-        <i className="fa fa-plus icon" /> Add new column
-        </div>
       </Container>
+
+      <BtContainer className="btcontainer">
+        <Row>
+          <Col className="add-new-column">
+            <i className="fa fa-plus icon" /> Add new column
+          </Col>
+        </Row>
+        <Row>
+          <Col className="enter-add-column">
+            <Form.Control
+              size="sm"
+              type="text"
+              class="inp-enter-new-column"
+            ></Form.Control>{' '}
+            <Button variant="success" size="sm">
+              Add Column
+            </Button>
+            <span className="add-cancle">
+              <i className="fa fa-trash" />
+            </span>
+          </Col>
+        </Row>
+      </BtContainer>
     </div>
   );
-
-  //   if()
-  //   return (
-  //     <div className='board-content'>
-  //       <Column></Column>
-  //     </div>
-  //   );
 }
 export default BoardContent;

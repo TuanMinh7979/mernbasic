@@ -1,4 +1,5 @@
-@import "./components/settings.scss";
+@import '~bootstrap/scss/bootstrap';
+@import './components/settings.scss';
 * {
   box-sizing: border-box;
   padding: 0;
@@ -14,7 +15,7 @@ body {
   grid-template-rows: 40px 50px 1fr;
   background-color: $board-bg-color;
 
-  .icon{
+  .icon {
     font-size: 14px;
     margin-right: 3px;
   }
@@ -22,8 +23,8 @@ body {
     border: 1px solid;
     border-color: green;
   }
-
-
-
-
+  .btcontainer{
+    padding: 0;
+    margin :0;
+  }
 }
