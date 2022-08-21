@@ -103,6 +103,22 @@ function BoardContent() {
     setColumn(updateColumns);
     setBoard(updateBoard);
   };
+
+  const onUpdateColumn = (newColToUpdate) => {
+    const colIdToRemove = newColToUpdate.id;
+    let newCols = [...column];
+    const columnIndexToUpdate = newCols.findIndex(
+      i => i.id === colIdToRemove
+    );
+    newCols.splice(columnIndexToUpdate, 1);
+    let newBoard = { ...board };
+    newBoard.columnOrder = newCols.map((c) => c.id);
+    newBoard.column = newCols;
+    setColumn(newCols);
+    setBoard(newBoard);
+
+    console.log(columnIndexToUpdate);
+  };
   return (
     <div className="board-content">
       <Container
@@ -118,7 +134,13 @@ function BoardContent() {
       >
         {column.map((columni, index) => (
           <Draggable key={index}>
-            <Column onCardDrop={onCardDrop} column={columni}></Column>
+            <Column
+              onCardDrop={onCardDrop}
+              column={columni}
+              onUpdateColumn={onUpdateColumn}
+            >
+              {' '}
+            </Column>
           </Draggable>
         ))}
       </Container>

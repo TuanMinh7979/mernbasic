@@ -12,13 +12,39 @@
     color: #333;
     padding-left: 0 8px;
   }
-  header {
+  header.column-drag-handle {
     padding-left: 15px;
     height: 35px;
     line-height: 36px;
     font-size: 16px;
     font-weight: bold;
     border-top-left-radius: 5px;
+
+    display: flex;
+    .column-title {
+      flex: 90%;
+    }
+    .column-dropdown-actions {
+      flex: 10%;
+
+      button.dropdown-btn {
+        &:after {
+          content: '...';
+        }
+        &:hover {
+          background-color: darken($color: blue, $amount: 10);
+        }
+      }
+      .dropdown-menu {
+        padding: 0;
+        min-width: 200px;
+        a.dropdown-item {
+          &:not(:last-child) {
+            border-bottom: 1px solid cyan;
+          }
+        }
+      }
+    }
   }
   footer {
     padding-left: 10px;
