@@ -23,8 +23,18 @@ body {
     border: 1px solid;
     border-color: green;
   }
-  .btcontainer{
+  .btcontainer {
     padding: 0;
-    margin :0;
+    margin: 0;
+  }
+  .cancle-icon {
+    margin-left: 10px;
+    i {
+      color: red;
+      font-size: 1.2rem;
+      &:hover {
+        color: darken($color: red, $amount: 10);
+      }
+    }
   }
 }

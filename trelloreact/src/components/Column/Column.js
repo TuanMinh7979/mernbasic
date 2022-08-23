@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import './Column.scss';
 import Card from '../Card/Card';
 import { Container, Draggable } from 'react-smooth-dnd';
-import { Dropdown } from 'react-bootstrap';
+import { Dropdown, Button, Form } from 'react-bootstrap';
 
 import ConfirmModal from '../Common/ConfirmModal';
 function Column(props) {
-  const { column, onCardDrop, onUpdateColumn } = props;
+  const { column, onCardDrop, onRemoveColumn, onUpdateColumnCards } = props;
   const cards = column.cards;
   cards.sort((a, b) => {
     return column.cardOrder.indexOf(a.id) - column.cardOrder.indexOf(b.id);
@@ -16,22 +16,48 @@ function Column(props) {
   const toggleShowRemoveConfirmModal = () => {
     setShowRemoveConfirmModal(!showRemoveConfirmModal);
   };
-  // const onCardDrop = (id, dropResult) => {
-  //   if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
-  //     console.log(id);
-  //     console.log(dropResult);
-  //   }
-  // };
 
   let onConfirmModalAction = (type) => {
     if (type === 'confirm') {
       const newCol = { ...column, _destroy: true };
       console.log('-------------', newCol);
-      onUpdateColumn(newCol);
+      onRemoveColumn(newCol);
     }
 
     toggleShowRemoveConfirmModal();
   };
+
+  const [openNewCardForm, setOpenNewCardForm] = useState(false);
+
+  let toggleOpenNewCardForm = () => {
+    setOpenNewCardForm(!openNewCardForm);
+  };
+
+  const [newCardTitle, setNewCardTitle] = useState('');
+
+  const onNewCardTitleChange = (event) => {
+    setNewCardTitle(event.target.value);
+  };
+  const addNewCard = () => {
+    const newCardToAdd = {
+      id: Math.random().toString(36).substr(2, 5),
+      boardId: column.boardId,
+      columnId: column.id,
+      title: newCardTitle,
+      cover: null,
+    };
+    console.log(column);
+    let newColumn = { ...column };
+    newColumn.cards.push(newCardToAdd);
+    newColumn.cardOrder.push(newCardToAdd.id);
+    //function from parent to update state
+    onUpdateColumnCards(newColumn);
+
+    //>function in local to update UI
+    setNewCardTitle('');
+    toggleOpenNewCardForm();
+  };
+
   return (
     <div className="column">
       <header className="column-drag-handle">
@@ -78,9 +104,28 @@ function Column(props) {
       </div>
 
       <footer>
-        <div className="footer-actions">
-          <i className="fa fa-plus icon" /> Add another card
-        </div>
+        {openNewCardForm && (
+          <div className="add-new-card-area">
+            <Form.Control
+              size="sm"
+              type="text"
+              className="inp-enter-new-column"
+              value={newCardTitle}
+              onChange={(event) => onNewCardTitleChange(event)}
+            ></Form.Control>
+            <Button variant="success" size="sm" onClick={addNewCard}>
+              Add Column
+            </Button>
+            <span className="cancle-icon" onClick={toggleOpenNewCardForm}>
+              <i className="fa fa-times" aria-hidden="true"></i>
+            </span>
+          </div>
+        )}
+        {!openNewCardForm && (
+          <div className="footer-actions" onClick={toggleOpenNewCardForm}>
+            <i className="fa fa-plus icon" /> Add another card
+          </div>
+        )}
       </footer>
 
       <ConfirmModal

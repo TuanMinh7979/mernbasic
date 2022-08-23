@@ -18,8 +18,16 @@ import {
 
 function BoardContent() {
   const [board, setBoard] = useState({});
-  const [column, setColumn] = useState([]);
+  const [columns, setColumns] = useState([]);
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false);
+
+  let toggleOpenNewColumnForm = () => {
+    if (openNewColumnForm) {
+      setNewColumnTitle('');
+    }
+    setOpenNewColumnForm(!openNewColumnForm);
+    console.log(openNewColumnForm);
+  };
 
   const [newColumnTitle, setNewColumnTitle] = useState('');
   //run first time
@@ -35,7 +43,7 @@ function BoardContent() {
           boardFromDb.columnOrder.indexOf(b.id)
         );
       });
-      setColumn(boardFromDb.columns);
+      setColumns(boardFromDb.columns);
     }
   }, []);
 
@@ -45,36 +53,28 @@ function BoardContent() {
   }
 
   const onColumnDrop = (dropResult) => {
-    let newCols = [...column];
+    let newCols = [...columns];
     newCols = applyDrag(newCols, dropResult);
 
-    console.log(column, 'column=========== newCols', newCols);
+    console.log(columns, 'column=========== newCols', newCols);
 
     let newBoard = { ...board };
     newBoard.columnOrder = newCols.map((c) => c.id);
     newBoard.column = newCols;
-    setColumn(newCols);
+    setColumns(newCols);
     setBoard(newBoard);
   };
 
   const onCardDrop = (id, dropResult) => {
     if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
-      let newCols = [...column];
+      let newCols = [...columns];
       let currentColumn = newCols.find((c) => c.id === id);
       currentColumn.cards = applyDrag(currentColumn.cards, dropResult);
       currentColumn.cardOrder = currentColumn.cards.map((i) => i.id);
       console.log(currentColumn);
 
-      setColumn(newCols);
+      setColumns(newCols);
     }
-  };
-
-  let toggleOpenNewColumnForm = () => {
-    if (openNewColumnForm) {
-      setNewColumnTitle('');
-    }
-    setOpenNewColumnForm(!openNewColumnForm);
-    console.log(openNewColumnForm);
   };
 
   let onNewColumnTitleChange = (event) => {
@@ -93,38 +93,57 @@ function BoardContent() {
       cardOrder: [],
       cards: [],
     };
-    let updateColumns = [...column];
+    let updateColumns = [...columns];
     updateColumns.push(newColToAdd);
 
     let updateBoard = { ...board };
     updateBoard.columnOrder = updateColumns.map((c) => c.id);
     updateBoard.column = updateColumns;
     setOpenNewColumnForm(false);
-    setColumn(updateColumns);
+    setColumns(updateColumns);
     setBoard(updateBoard);
   };
 
-  const onUpdateColumn = (newColToUpdate) => {
+  const onRemoveColumn = (newColToUpdate) => {
     const colIdToRemove = newColToUpdate.id;
-    let newCols = [...column];
+    let newCols = [...columns];
     const columnIndexToUpdate = newCols.findIndex(
-      i => i.id === colIdToRemove
+      (i) => i.id === colIdToRemove
     );
     newCols.splice(columnIndexToUpdate, 1);
     let newBoard = { ...board };
     newBoard.columnOrder = newCols.map((c) => c.id);
-    newBoard.column = newCols;
-    setColumn(newCols);
+    newBoard.columns = newCols;
+    setColumns(newCols);
     setBoard(newBoard);
 
     console.log(columnIndexToUpdate);
   };
+
+  const onUpdateColumnCards=(newColToUpdate)=>{
+    const colIdToupdateCards = newColToUpdate.id;
+    
+    let newCols = [...columns];
+    const columnIndexToUpdate = newCols.findIndex(
+      (i) => i.id === colIdToupdateCards
+    );
+
+
+    newCols[colIdToupdateCards]= newColToUpdate;
+    let newBoard = { ...board };
+    newBoard.columnOrder = newCols.map((c) => c.id);
+    newBoard.columns = newCols;
+    setColumns(newCols);
+    setBoard(newBoard);
+  }
+
+
   return (
     <div className="board-content">
       <Container
         orientation="horizontal"
         onDrop={onColumnDrop}
-        getChildPayload={(index) => column[index]}
+        getChildPayload={(index) => columns[index]}
         dragHandleSelector=".column-drag-handle"
         dropPlaceholder={{
           animationDuration: 150,
@@ -132,12 +151,13 @@ function BoardContent() {
           className: 'cards-drop-preview',
         }}
       >
-        {column.map((columni, index) => (
+        {columns.map((columni, index) => (
           <Draggable key={index}>
             <Column
               onCardDrop={onCardDrop}
               column={columni}
-              onUpdateColumn={onUpdateColumn}
+              onRemoveColumn={onRemoveColumn}
+              onUpdateColumnCards={onUpdateColumnCards}
             >
               {' '}
             </Column>
@@ -166,7 +186,7 @@ function BoardContent() {
               <Button variant="success" size="sm" onClick={addNewColumn}>
                 Add Column
               </Button>
-              <span className="add-cancle" onClick={toggleOpenNewColumnForm}>
+              <span className="cancle-icon" onClick={toggleOpenNewColumnForm}>
                 <i className="fa fa-trash" />
               </span>
             </Col>
