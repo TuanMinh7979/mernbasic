@@ -1,8 +1,8 @@
-import Joi from "joi";
-import { ObjectID } from "mongodb";
-import { getDB } from "../config/mongodb";
+import Joi from 'joi';
+import { ObjectId } from 'mongodb';
+import { getDB } from '../config/mongodb';
 //define column collection
-const columnCollectionName = "columns";
+const columnCollectionName = 'columns';
 const columnCollectionSchema = Joi.object({
   boardId: Joi.string().required(),
   title: Joi.string().required().min(3).max(20),
@@ -20,7 +20,7 @@ const validateSchema = async (data) => {
 
 const createNew = async (data) => {
   try {
-    const value = await validateSchema(data);
+    // const value = await validateSchema(data);
 
     let result = await getDB()
       .collection(columnCollectionName)
@@ -33,12 +33,13 @@ const createNew = async (data) => {
 };
 
 const update = async (id, data) => {
+
   try {
     let result = await getDB()
       .collection(columnCollectionName)
       .findOneAndUpdate(
         {
-          _id: ObjectID(id),
+          _id: ObjectId(id),
         },
         {
           $set: data,

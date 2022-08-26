@@ -20,9 +20,9 @@ const validateSchema = async (data) => {
 
 const createNew = async (data) => {
   try {
-    const value = await validateSchema(data);
 
-    let result = await getDB().collection(cardCollectionName).insertOne(value);
+
+    let result = await getDB().collection(cardCollectionName).insertOne(data);
     console.log("RESULT", result);
     return result;
   } catch (e) {

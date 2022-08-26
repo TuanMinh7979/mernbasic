@@ -19,7 +19,7 @@ const validateSchema = async (data) => {
 
 const createNew = async (data) => {
   try {
-    const value = await validateSchema(data);
+    // const value = await validateSchema(data);
 
     let result = await getDB().collection(boardCollectionName).insertOne(data);
     console.log("RESULT", result);

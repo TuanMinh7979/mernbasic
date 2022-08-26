@@ -14,11 +14,14 @@ const createNew = async (data) => {
 };
 const update = async (id , data) => {
   try {
+   
     const updateData={
       ...data, 
       updatedAt:Date.now()
     }
-    const rs = await columnModel.update(id, data);
+    console.log("SERVICE ID ", id)
+    console.log("SERVICE data ", updateData)
+    const rs = await columnModel.update(id, updateData);
     return rs;
   } catch (e) {
     //neu return thi se nam trong khoi try cua controller
@@ -29,4 +32,4 @@ const update = async (id , data) => {
   }
 };
 
-export const columnService = { createNew };
+export const columnService = { createNew ,update};
