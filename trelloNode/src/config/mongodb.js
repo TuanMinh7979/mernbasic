@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb';
 import { env } from './environment';
 const uri = env.MONGODB_URI;
-let dbIns;
+let dbIns=null;
 export const connectDB = async () => {
   const client = new MongoClient(uri, {
     useUnifiedTopology: true,
