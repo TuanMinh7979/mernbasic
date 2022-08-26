@@ -26,7 +26,7 @@ const createNew = async (data) => {
     console.log("RESULT", result);
     return result;
   } catch (e) {
-    console.log(e);
+    throw new Error(e);
   }
 };
 
