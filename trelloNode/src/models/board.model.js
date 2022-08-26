@@ -18,16 +18,17 @@ const validateSchema = async (data) => {
 };
 
 const createNew = async (data) => {
-    try {
-      const value = await validateSchema(data);
-   
-      let result=  await getDB().collection(boardCollectionName).insertOne(value);
-      console.log( "RESULT", result)
-      return result;
-    } catch (e) {
-      console.log( e);
-    }
-  
+  try {
+    const value = await validateSchema(data);
+
+    let result = await getDB().collection(boardCollectionName).insertOne(data);
+    console.log("RESULT", result);
+    return result;
+  } catch (e) {
+    //throw cho service
+    console.log(" err in model", e);
+    throw new Error(e);
+  }
 };
 
-export const BoardModel = { createNew };
+export const boardModel = { createNew };
