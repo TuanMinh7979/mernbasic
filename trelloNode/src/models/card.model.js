@@ -1,7 +1,8 @@
-import Joi from "joi";
-import { getDB } from "../config/mongodb";
+import { ObjectId, ObjectID } from 'bson';
+import Joi from 'joi';
+import { getDB } from '../config/mongodb';
 //define card collection
-const cardCollectionName = "cards";
+const cardCollectionName = 'cards';
 const cardCollectionSchema = Joi.object({
   boardId: Joi.string().required(),
   columnId: Joi.string().required(),
@@ -20,14 +21,21 @@ const validateSchema = async (data) => {
 
 const createNew = async (data) => {
   try {
+    const insertData = {
+      ...data,
+      boardId: ObjectId(data.boardId),
+      columnId: ObjectId(data.columnId),
+    };
 
-
-    let result = await getDB().collection(cardCollectionName).insertOne(data);
-    console.log("RESULT", result);
+    let result = await getDB()
+      .collection(cardCollectionName)
+      .insertOne(insertData);
+    console.log('RESULT', result);
     return result;
   } catch (e) {
     throw new Error(e);
   }
 };
+
 
 export const cardModel = { createNew };

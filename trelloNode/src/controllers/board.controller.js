@@ -13,5 +13,18 @@ const createNew = async (req, res) => {
     })
   }
 };
+const getBoards = async (req, res) => {
+  try {
+    const id= req.params
+    const result = await boardService.getBoards(id);
+    console.log("From controller" , result)
+    res.status(HttpStatusCode.OK).json(result)
+  } catch (e) {
+    console.log(" err in controller", e)
+    res.status(HttpStatusCode.INTERNAL_SERVER).json({
+        errors: e.message
+    })
+  }
+};
 
-export const boardController = { createNew };
+export const boardController = { createNew, getBoards };
