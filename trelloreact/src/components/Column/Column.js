@@ -9,7 +9,7 @@ function Column(props) {
   const { column, onCardDrop, onRemoveColumn, onUpdateColumnCards } = props;
   const cards = column.cards;
   cards.sort((a, b) => {
-    return column.cardOrder.indexOf(a.id) - column.cardOrder.indexOf(b.id);
+    return column.cardOrder.indexOf(a._id) - column.cardOrder.indexOf(b._id);
   });
 
   const [showRemoveConfirmModal, setShowRemoveConfirmModal] = useState(false);
@@ -32,6 +32,7 @@ function Column(props) {
   let toggleOpenNewCardForm = () => {
     setOpenNewCardForm(!openNewCardForm);
   };
+  
 
   const [newCardTitle, setNewCardTitle] = useState('');
 
@@ -42,14 +43,14 @@ function Column(props) {
     const newCardToAdd = {
       id: Math.random().toString(36).substr(2, 5),
       boardId: column.boardId,
-      columnId: column.id,
+      columnId: column._id,
       title: newCardTitle,
       cover: null,
     };
     console.log(column);
     let newColumn = { ...column };
     newColumn.cards.push(newCardToAdd);
-    newColumn.cardOrder.push(newCardToAdd.id);
+    newColumn.cardOrder.push(newCardToAdd._id);
     //function from parent to update state
     onUpdateColumnCards(newColumn);
 
@@ -84,7 +85,7 @@ function Column(props) {
       <div className="card-list">
         <Container
           groupName="col"
-          onDrop={(dropResult) => onCardDrop(column.id, dropResult)}
+          onDrop={(dropResult) => onCardDrop(column._id, dropResult)}
           getChildPayload={(index) => cards[index]}
           dragClass="card-ghost"
           dropClass="card-ghost-drop"
