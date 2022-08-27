@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import { ObjectId } from 'mongodb';
 import { getDB } from '../config/mongodb';
-// import {columnCollectionName1} from './column.model'
+import {columnCollectionName} from './column.model'
 
 //define board collection
 const boardCollectionName = 'boards';
@@ -62,7 +62,7 @@ const getBoards = async (id) => {
 
         {
           $lookup: {
-            from: "columns", //collection Name
+            from: columnCollectionName, //collection Name
             localField: '_id',
             foreignField: 'boardId',
             as: 'columns',
