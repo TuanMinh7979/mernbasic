@@ -18,15 +18,15 @@ function StudentList() {
 
   useEffect(() => {
     async function getData() {
-      let rs = await axios.get('http://loca1lhost/vuex/apis.php');
+      let rs = await axios.get('http://localhost/vuex/apis.php');
       return rs.data;
     }
     getData().then((res) => setStudentList(res));
   }, []);
   useEffect(() => {}, [name, mail, gender]);
   return (
-    <>
-      <h1 id="title">Student List</h1>
+    <div id='studentListWrapper'>
+      <h1 className="title">Student List</h1>
       <div className="search-box">
         <div className="search-item name">
           <p>Search by Name</p>
@@ -72,7 +72,7 @@ function StudentList() {
             return <p key={item.id}>{item.name}</p>;
           })}
       </div>
-    </>
+    </div>
   );
 }
 export default StudentList;

@@ -21,6 +21,8 @@ import MailIcon from '@material-ui/icons/Mail';
 import PersonIcon from '@material-ui/icons/Person';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import GroupIcon from '@material-ui/icons/Group';
+
+import { useNavigate } from 'react-router-dom';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -93,6 +95,8 @@ export default function CustomDrawler() {
     setOpen(false);
   };
 
+  let navigate = useNavigate();
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -139,19 +143,37 @@ export default function CustomDrawler() {
         <List>
           {/* ['StudentList', 'Add a Student', 'Assign Teams'] */}
 
-          <ListItem button key="StudentList">
+          <ListItem
+            onClick={() => {
+              navigate('/');
+            }}
+            button
+            key="StudentList"
+          >
             <ListItemIcon>
               <PersonIcon />
             </ListItemIcon>
             <ListItemText primary="StudentList" />
           </ListItem>
-          <ListItem button key="Add a Student">
+          <ListItem
+            onClick={() => {
+              navigate('/add');
+            }}
+            button
+            key="Add a Student"
+          >
             <ListItemIcon>
               <PersonAddIcon />
             </ListItemIcon>
             <ListItemText primary="Add a Student" />
           </ListItem>
-          <ListItem button key="Assign Teams">
+          <ListItem
+            onClick={() => {
+              navigate('/edit');
+            }}
+            button
+            key="Assign Teams"
+          >
             <ListItemIcon>
               <GroupIcon />
             </ListItemIcon>

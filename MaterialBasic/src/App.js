@@ -4,6 +4,8 @@ import { Routes, Route } from 'react-router-dom';
 import Calendar from './components/Calendar/Calendar';
 import StudentList from './components/StudentList/StudentList';
 import CustomDrawler from './components/CustomDrawler';
+import EditStudent from './components/EditStudent/EditStudent';
+import AddStudent from './components/AddStudent/AddStudent';
 
 function App() {
   // Instantiation
@@ -12,8 +14,9 @@ function App() {
     <>
       <CustomDrawler></CustomDrawler>
       <Routes>
-        <Route path="/" element={<Calendar />} />
-        <Route path="list" element={<StudentList />} />
+        <Route path="/" element={<StudentList />} />
+        <Route path="add" element={<AddStudent />} />
+        <Route path="edit" element={<EditStudent />} />
       </Routes>
     </>
   );
