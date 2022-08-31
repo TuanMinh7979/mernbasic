@@ -21,7 +21,7 @@ function AddStudent() {
     <div id="addStudentWrapper">
       <h1 className="title">Add Student</h1>
 
-      <div className="mainform">
+      <form className="mainform">
         <div className="form-group  name">
           <p>Student Name</p>
           <input
@@ -60,7 +60,9 @@ function AddStudent() {
             </div>
           </div>
         </div>
-      </div>
+
+        <button type="submit" className='submit-btn'>CREATE</button>
+      </form>
     </div>
   );
 }
